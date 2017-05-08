@@ -80,6 +80,10 @@ body{
      color: rgb(233,50,117);
  }
 
+ .navbar .links-container:active {
+     background-color: white;
+ }
+
  *, *::before, *::after {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
