@@ -90,25 +90,33 @@ var createSongRow = function(songNumber, songName, songLength) {
 
  var albums = [albumPicasso, albumMarconi, albumNoelle];
 
- var n = 0;
 
  window.onload = function() {
-   setCurrentAlbum(albums[n]);
- };
-
- window.onclick = function() {
-   if (albums[n] === albums[0]){
-     albumImage.addEventListener("click", function(){
-     setCurrentAlbum(albums[1]);
-   });
- } else if (albums[n] === albums[1]){
-   albumImage.addEventListener("click", function(){
-   setCurrentAlbum(albums[2]);
- });
- } else {
+   var n = 0;
    setCurrentAlbum(albums[0]);
- }
+
+   albumImage.addEventListener("click", function(event){
+   setCurrentAlbum(albums[n]);
+   n++;
+   if (n == albums.length){
+     n = 0;
  };
+ });
+ }
+
+ // window.onclick = function() {
+ //   if (albums[n] === albums[0]){
+ //     albumImage.addEventListener("click", function(event){
+ //     setCurrentAlbum(albums[1]);
+ //   });
+ // } else if (albums[n] === albums[1]){
+ //   albumImage.addEventListener("click", function(event){
+ //   setCurrentAlbum(albums[2]);
+ // });
+ // } else {
+ //   setCurrentAlbum(albums[0]);
+ // }
+ // };
 
 //albumImage.addEventListener("click", setCurrentAlbum(albums[1]);
 
