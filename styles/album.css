@@ -11,6 +11,7 @@ body.album {
     left: 20%;
     margin-top: 1rem;
     width: 60%;
+    cursor: pointer;
 }
 
 .album-view-details {

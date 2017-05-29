@@ -28,6 +28,21 @@ var albumMarconi = {
     ]
 };
 
+var albumNoelle = {
+    title: 'Where to next?',
+    artist: 'N.E.L.',
+    label: 'Femme',
+    year: '1989',
+    albumArtUrl: 'assets/images/album_covers/nel.jpg',
+    songs: [
+        { title: 'Who I am', duration: '1:01' },
+        { title: 'Travel 2 Worlds', duration: '2:21' },
+        { title: 'Home sweet home', duration: '3:78'},
+        { title: 'Try that again', duration: '7:30' },
+        { title: 'I\'m back', duration: '20:17'}
+    ]
+};
+
 var createSongRow = function(songNumber, songName, songLength) {
      var template =
         '<tr class="album-view-song-item">'
@@ -40,13 +55,21 @@ var createSongRow = function(songNumber, songName, songLength) {
      return template;
  };
 
+ // #1
+ var albumTitle = document.getElementsByClassName('album-view-title')[0];
+ var albumArtist = document.getElementsByClassName('album-view-artist')[0];
+ var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
+ var albumImage = document.getElementsByClassName('album-cover-art')[0];
+ var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
+
+
  var setCurrentAlbum = function(album) {
-     // #1
-     var albumTitle = document.getElementsByClassName('album-view-title')[0];
-     var albumArtist = document.getElementsByClassName('album-view-artist')[0];
-     var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
-     var albumImage = document.getElementsByClassName('album-cover-art')[0];
-     var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
+    //  // #1
+    //  var albumTitle = document.getElementsByClassName('album-view-title')[0];
+    //  var albumArtist = document.getElementsByClassName('album-view-artist')[0];
+    //  var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
+    //  var albumImage = document.getElementsByClassName('album-cover-art')[0];
+    //  var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
 
      // #2
      albumTitle.firstChild.nodeValue = album.title;
@@ -63,6 +86,44 @@ var createSongRow = function(songNumber, songName, songLength) {
      }
  };
 
+ //var albumCover = setCurrentAlbum();
+
+ var albums = [albumPicasso, albumMarconi, albumNoelle];
+
+ var n = 0;
+
  window.onload = function() {
-     setCurrentAlbum(albumPicasso);
+   setCurrentAlbum(albums[n]);
  };
+
+ window.onclick = function() {
+   if (albums[n] === albums[0]){
+     albumImage.addEventListener("click", function(){
+     setCurrentAlbum(albums[1]);
+   });
+ } else if (albums[n] === albums[1]){
+   albumImage.addEventListener("click", function(){
+   setCurrentAlbum(albums[2]);
+ });
+ } else {
+   setCurrentAlbum(albums[0]);
+ }
+ };
+
+//albumImage.addEventListener("click", setCurrentAlbum(albums[1]);
+
+
+// document.getElementsByClassName('album-cover-art')[0].addEventListener("click", function(){
+//   for (var j= 0; j <= albums.length; j++){
+//        setCurrentAlbum(albums[j]);
+//      }
+// });
+
+
+ // var toggleAlbums = function(){
+ //   for (var j= 0; j <= albums.length; j++){
+ //     setCurrentAlbum(albums[j]);
+ //   }
+ // };
+ //
+ // document.getElementsByClassName('album-cover-art')[j].addEventListener('click',toggleAlbums);
