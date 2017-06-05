@@ -147,7 +147,7 @@ var clickHandler = function(targetElement) {
  var albums = [albumPicasso, albumMarconi, albumNoelle];
 
  window.onload = function() {
-   var n = 0;
+   var n = 1;
    setCurrentAlbum(albums[0]);
 
    songListContainer.addEventListener('mouseover', function(event) {
