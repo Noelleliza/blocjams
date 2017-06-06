@@ -9,9 +9,9 @@ var animatePoints = function() {
 
                  };
 
-var animatePoints = function(points) {
-  forEach(points, revealPoint);
-};
+// var animatePoints = function(points) {
+//   forEach(points, revealPoint);
+// };
 
 
 $(window).load(function() {
