@@ -99,7 +99,9 @@ var createSongRow = function(songNumber, songName, songLength) {
  var $albumReleaseInfo = $('.album-view-release-info');
  var $albumImage = $('.album-cover-art');
  var $albumSongList = $('.album-view-song-list');
-
+// assignment 32 ===
+ var $controls = $('.main-controls .play-pause');
+//====
  var setCurrentAlbum = function(album) {
      currentAlbum = album;
 
@@ -202,6 +204,20 @@ $('.main-controls .play-pause').html(playerBarPauseButton);
     $lastSongNumberCell.html(lastSongNumber);
 };
 
+//assignment 32===
+var togglePlayFromPlayerBar = function(){
+  if (currentSoundFile.isPaused()) {
+          $(this).html(pauseButtonTemplate);
+          $('.main-controls .play-pause').html(playerBarPauseButton);
+          currentSoundFile.play();
+
+  } else {
+          $(this).html(playButtonTemplate);
+          $('.main-controls .play-pause').html(playerBarPlayButton);
+          currentSoundFile.pause();
+          }
+};
+//===
 
  var albums = [albumPicasso, albumMarconi, albumNoelle];
 
@@ -211,7 +227,11 @@ $('.main-controls .play-pause').html(playerBarPauseButton);
    $previousButton.click(previousSong);
    $nextButton.click(nextSong);
 
-   albumImage.addEventListener("click", function(event){
+   //assignment 32 ====
+   $controls.click(togglePlayFromPlayerBar);
+   //=====
+
+   $albumImage.click(function(){
    setCurrentAlbum(albums[n]);
    n++;
    if (n == albums.length){
