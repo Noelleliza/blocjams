@@ -94,7 +94,7 @@ var createSongRow = function(songNumber, songName, songLength) {
                   $(this).html(pauseButtonTemplate);
                   $('.main-controls .play-pause').html(playerBarPauseButton);
                   currentSoundFile.play();
-                  updateSeekBarWhileSongPlays();
+                  //updateSeekBarWhileSongPlays();
               } else {
                   $(this).html(playButtonTemplate);
                   $('.main-controls .play-pause').html(playerBarPlayButton);
@@ -107,21 +107,19 @@ var createSongRow = function(songNumber, songName, songLength) {
         var songNumberCell = $(this).find('.song-item-number');
         var songNumber = songNumberCell.attr('data-song-number');
 
-        if (songNumber !== currentlyPlayingSongNumber) {
+        if (songNumber !== setSong) {
             songNumberCell.html(playButtonTemplate);
         }
-           };
+      };
 
       var offHover = function(event) {
         var songNumberCell = $(this).find('.song-item-number');
         var songNumber = songNumberCell.attr('data-song-number');
 
-        if (songNumber !== currentlyPlayingSongNumber) {
+        if (songNumber !== setSong) {
             songNumberCell.html(songNumber);
         }
-        console.log("songNumber type is " + typeof songNumber + "\n and currentlyPlayingSongNumber type is " + typeof currentlyPlayingSongNumber);
-
-           };
+     };
 
       $row.find('.song-item-number').click(clickHandler);
 
@@ -147,10 +145,10 @@ var setCurrentAlbum = function(album) {
      $albumReleaseInfo.text(album.year + ' ' + album.label);
      $albumImage.attr('src', album.albumArtUrl);
 
-     // #3
+     // Clear contents of album song list container
      $albumSongList.empty();
 
-     // #4
+     // Build list of songs from album JavaScript object
      for (var i = 0; i < album.songs.length; i++) {
        var $newRow = createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
        $albumSongList.append($newRow);
@@ -160,9 +158,9 @@ var setCurrentAlbum = function(album) {
 
  var updateSeekBarWhileSongPlays = function() {
      if (currentSoundFile) {
-         // #10
+
          currentSoundFile.bind('timeupdate', function(event) {
-             // #11
+
              var seekBarFillRatio = this.getTime() / this.getDuration();
              var $seekBar = $('.seek-control .seek-bar');
              updateSeekPercentage($seekBar, seekBarFillRatio);
@@ -176,11 +174,10 @@ var setCurrentAlbum = function(album) {
 
  var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
      var offsetXPercent = seekBarFillRatio * 100;
-     // #1
+
      offsetXPercent = Math.max(0, offsetXPercent);
      offsetXPercent = Math.min(100, offsetXPercent);
 
-     // #2
      var percentageString = offsetXPercent + '%';
      $seekBar.find('.fill').width(percentageString);
      $seekBar.find('.thumb').css({left: percentageString});
@@ -190,21 +187,19 @@ var setCurrentAlbum = function(album) {
      var $seekBars = $('.player-bar .seek-bar');
 
      $seekBars.click(function(event) {
-         // #3
+
          var offsetX = event.pageX - $(this).offset().left;
          var barWidth = $(this).width();
-         // #4
+
          var seekBarFillRatio = offsetX / barWidth;
 
-         // #5
          updateSeekPercentage($(this), seekBarFillRatio);
      });
-         // #7
+
      $seekBars.find('.thumb').mousedown(function(event) {
-         // #8
+
          var $seekBar = $(this).parent();
 
-         // #9
          $(document).bind('mousemove.thumb', function(event){
              var offsetX = event.pageX - $seekBar.offset().left;
              var barWidth = $seekBar.width();
@@ -219,7 +214,6 @@ var setCurrentAlbum = function(album) {
              updateSeekPercentage($seekBar, seekBarFillRatio);
          });
 
-         // #10
          $(document).bind('mouseup.thumb', function() {
              $(document).unbind('mousemove.thumb');
              $(document).unbind('mouseup.thumb');
@@ -269,51 +263,50 @@ setTotalTimeInPlayerBar();
      }
 
      // Save the last song number before changing it
-     var lastSongNumber = currentlyPlayingSongNumber;
+     var lastSongNumber = setSong;
 
      // Set a new current song
-     setSong(currentSongIndex);
+     setSong(currentSongIndex + 1);
      currentSoundFile.play();
-     updateSeekBarWhileSongPlays();
+     currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
 
      // Update the Player Bar information
      updatePlayerBarSong();
 
-     var $nextSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber) ;
+     var $nextSongNumberCell = getSongNumberCell(setSong);
      var $lastSongNumberCell = getSongNumberCell(lastSongNumber);
 
      $nextSongNumberCell.html(pauseButtonTemplate);
      $lastSongNumberCell.html(lastSongNumber);
  };
-
  var previousSong = function() {
-    var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
-    // Note that we're _decrementing_ the index here
-    currentSongIndex--;
+     var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
+     // Note that we're _decrementing_ the index here
+     currentSongIndex--;
 
-    if (currentSongIndex < 0) {
-        currentSongIndex = currentAlbum.songs.length - 1;
-    }
+     if (currentSongIndex < 0) {
+         currentSongIndex = currentAlbum.songs.length - 1;
+     }
 
-    // Save the last song number before changing it
-    var lastSongNumber = currentlyPlayingSongNumber;
+     // Save the last song number before changing it
+     var lastSongNumber = setSong;
 
-    // Set a new current song
-    setSong(currentSongIndex);
-    currentSoundFile.play();
-    updateSeekBarWhileSongPlays();
+     // Set a new current song
+     setSong(currentSongIndex + 1);
+     currentSoundFile.play();
+     currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
 
-    // Update the Player Bar information
-    updatePlayerBarSong();
+     // Update the Player Bar information
+     updatePlayerBarSong();
 
-    $('.main-controls .play-pause').html(playerBarPauseButton);
+     $('.main-controls .play-pause').html(playerBarPauseButton);
 
-    var $previousSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
-    var $lastSongNumberCell = getSongNumberCell(lastSongNumber);
+     var $previousSongNumberCell = getSongNumberCell(setSong);
+     var $lastSongNumberCell = getSongNumberCell(lastSongNumber);
 
-    $previousSongNumberCell.html(pauseButtonTemplate);
-    $lastSongNumberCell.html(lastSongNumber);
-};
+     $previousSongNumberCell.html(pauseButtonTemplate);
+     $lastSongNumberCell.html(lastSongNumber);
+ };
 
 //assignment 32===
 var togglePlayFromPlayerBar = function(){
