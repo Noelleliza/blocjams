@@ -29,6 +29,7 @@ var setVolume = function(volume) {
 var setCurrentTimeInPlayerBar = function(currentTime){
   var $currentTime = filterTimeCode(currentTime);
   var $songTime = $('.current-time').html($currentTime);
+  //  $('.current-time').text(filterTimeCode(currentTime));
 };
 
 var setTotalTimeInPlayerBar = function(totalTime){
